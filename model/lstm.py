@@ -43,3 +43,20 @@ class lstm_model:
         score = math.sqrt(mean_squared_error(orig_data[0], pred[:, 0]))
 
         return score, pred
+
+    def predict(self, iterations: int, x):
+        """predict future prices based on previous predictions"""
+        predictions = []
+        for _ in range(iterations):
+            pred = self.rnn.predict(x)
+            x[0] = np.append(x[0], pred).reshape(x.shape[1] + 1, 1)[1:]
+            predictions.append(self.normalizer.inverse_transform(pred)[0][0])
+        return predictions
+    
+    def create_dataset(self, dataset: DataFrame, window_size: int = 1):
+        """create the dataset"""
+        data_x, data_y = [], []
+        for i in range(len(dataset) - window_size - 1):
+            data_x.append(dataset[i:(i + window_size), 0])
+            data_y.append(dataset[i + window_size, 0])
+        return (np.array(data_x), np.array(data_y))
