@@ -24,3 +24,35 @@ def plot_price(price: DataFrame, date: DataFrame, zone: str) -> None:
     # show 
     plt.legend()
     plt.show()
+
+def plot_log_changes(price: DataFrame, date: DataFrame) -> None:
+    """plot the abs log price changes both as a function of time and the histogram"""
+    log_price_changes = DataFrame()
+    log_price_changes['log_price'] = np.log(price)
+    log_price_changes['date'] = date 
+    log_price_changes['log_price_diff'] = log_price_changes['log_price'].diff()
+    log_price_changes['abs_log_price_change'] = log_price_changes['log_price_diff'].abs() 
+
+    # drop any NAN values from using diff()
+    log_price_changes.dropna(inplace=True)
+    log_price_changes = log_price_changes[np.isfinite(log_price_changes['abs_log_price_change'])]
+
+    # plot 
+    plt.subplot(2,1,1)
+
+    # plot the price changes 
+    plt.figure(figsize=(10,6)) 
+    plt.plot(log_price_changes['date'], log_price_changes['abs_log_price_change'], linestyle='-', color='b')
+    plt.xlabel('Date') 
+    plt.ylabel('Absolute Log Price Change') 
+    plt.title('Absolute Log Price Changes Over Time') 
+    plt.xticks(rotation=45) 
+    plt.show()
+    
+    # hist
+    plt.subplot(2,1,2)
+    plt.hist(log_price_changes['abs_log_price_change'], bins=40, color='b', edgecolor='k', alpha=0.5)
+    plt.xlabel('Absolute Log Price Change') 
+    plt.ylabel('Frequency') 
+    plt.title('Histogram of Absolute Log Price Changes') 
+    plt.show()
