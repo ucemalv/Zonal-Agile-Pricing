@@ -107,5 +107,8 @@ predictions = model.predict(iterations, predict_X)
 # plot predictions 
 vis_mod.plot_future_24(predictions, zone, date[-48:], data[-48:])
 
+score = math.sqrt(mean_squared_error(agile_price[' LONDON'][-48:], predictions))
+print("Prediction Mean-Squared-Error: %.2f MSE" % score)
+
 
 ### DONE ###
