@@ -29,3 +29,30 @@ def plot_all_train_test(train: DataFrame, test: DataFrame, data: DataFrame, date
 
     plt.legend()
     plt.show()
+
+
+def plot_predictions(predictions: DataFrame, zone: str):
+    """plot predictions from model"""
+    plt.figure(figsize=(15,5))
+    plt.plot(predictions, label="Predicted Values")
+
+    # labels 
+    plt.xlabel("30 Minute Intervals")
+    plt.ylabel("Agile Price (p/KWh)")
+    plt.title(f"24 Hour Agile Price Predictions For {zone} Zone")
+
+    # show
+    plt.legend()
+    plt.show()
+
+
+def plot_future_24(predictions: DataFrame, zone: str, date: DataFrame, real_data: DataFrame) -> None:
+    """plot the next 24hrs using predictions only, then compare to real data"""
+    plt.figure(figsize=(15,5))
+    plt.plot(date, predictions, label="Predicted Values")
+    plt.plot(date, real_data, label="True Values")
+
+    # label 
+    plt.xlabel("30 Minute Intervals")
+    plt.ylabel("Agile Price (p/KWh)")
+    plt.title(f"24 Hour Agile Price Predictions For {zone} Zone Against Real Data")
