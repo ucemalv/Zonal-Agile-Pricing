@@ -12,14 +12,18 @@ from visualise import visualise as vis
 
 
 # import the data 
-agile_price = d.get_data('data/Corr_Agile_Wholesale.xlsx')
+agile_price = d.import_data('data/Corr_Agile_Wholesale.xlsx')
 # reformat the dates to remove errors in data
-agile_price.iloc[:, 'date'] = agile_price['date'].apply(d.date_reformat)
+agile_price.loc[:, 'date'] = agile_price['date'].apply(d.date_reformat)
 
 # set data for this run 
 ### SET THE ZONE HERE ###
-zone = ' LONDON'
-data = agile_price[zone]
+zone_id = 1
+zone_name = agile_price.keys()[zone_id]
+zone_fig = agile_price.keys()[zone_id].strip().lower()
+zone = zone_fig.title()
+
+data = agile_price[zone_name]
 date = agile_price['date']
 
 # some initial plots 
@@ -71,7 +75,7 @@ print("Shape of training inputs: " + str((x_train.shape)))
 print("Shape of training labels: " + str((y_train.shape)))
 
 # perform training 
-model.fit(x_train, y_train, epochs=10, batch_size=32, verbose=1)
+model.fit(x_train, y_train, epochs=25, batch_size=32, verbose=1)
 
 # get the score and predictions
 train_score, train_pred = model.get_predict_and_score(x_train, y_train)
@@ -82,14 +86,14 @@ print("Test data error: %.2f MSE" % test_score)
 
 
 # visulaise the results 
-vis_mod.plot_all_train_test(train_pred, test_pred, dataset, date, model.normalizer, window_size)
+vis_mod.plot_all_train_test(train_pred, test_pred, dataset, date, model.normalizer, window_size, False)
 
 # visualise a small section 
-vis_mod.plot_all_train_test(train_pred[62900:63300], test_pred[62900:63300], dataset[62900:63300], date[62900:63300], model.normalizer, window_size)
+vis_mod.plot_all_train_test(train_pred, test_pred, dataset, date, model.normalizer, window_size, True)
 
 # predict the next 24 hours
 iterations = 48
-predict_X = copy.deepcoy(x_test[-1:])
+predict_X = copy.deepcopy(x_test[-1:])
 
 predict_X = np.reshape(predict_X, (1, predict_X.shape[1], 1))
 
