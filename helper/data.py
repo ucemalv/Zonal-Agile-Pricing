@@ -18,5 +18,5 @@ def date_reformat(date):
     if isinstance(date, datetime.datetime):
         return pd.to_datetime(str(date), format="%Y-%d-%m %H:%M:%S")
     else:
-        return pd.to_datetime(date, format("%d/%m/%Y %H:%M"))
+        return pd.to_datetime(date, format="%d/%m/%Y %H:%M", dayfirst=True)
     
