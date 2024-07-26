@@ -18,7 +18,7 @@ agile_price.loc[:, 'date'] = agile_price['date'].apply(d.date_reformat)
 
 # set data for this run 
 ### SET THE ZONE HERE ###
-zone_id = 1
+zone_id = 3
 zone_name = agile_price.keys()[zone_id]
 zone_fig = agile_price.keys()[zone_id].strip().lower()
 zone = zone_fig.title()
