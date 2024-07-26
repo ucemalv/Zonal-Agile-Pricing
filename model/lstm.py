@@ -13,7 +13,7 @@ from sklearn.utils import shuffle
 
 class lstm_model:
 
-    def __init__(self, batch_size: int = 32, window_size: int = 5, features: int = 1, verbose: bool = True) -> Sequential:
+    def __init__(self, batch_size: int = 32, window_size: int = 5, features: int = 1, verbose: bool = True) -> None:
         self.batch_size = batch_size
         self.window_size = window_size
         self.features = features
@@ -29,7 +29,6 @@ class lstm_model:
         self.rnn.compile(loss="mean_squared_error", optimizer="adam", metrics = ["mse"])
         if verbose:
             self.rnn.summary()
-        return self.rnn
 
     def fit(self, x, y, epochs: int, batch_size: int, verbose: int):
         """train the model"""
