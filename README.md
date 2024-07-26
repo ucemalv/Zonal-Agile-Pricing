@@ -8,6 +8,10 @@ To use this repository. Clone the repo and start using the following commands in
 ```
 git clone "https://github.com/ucemalv/Zonal-Agile-Pricing.git"
 cd Zonal-Agile-Pricing
+
+conda env create -f environment.yml
+conda activate AgilePricePrediction
+
 python3 main.py
 ```
 
