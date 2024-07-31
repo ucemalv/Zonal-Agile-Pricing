@@ -13,22 +13,27 @@ from sklearn.utils import shuffle
 
 class lstm_model:
 
-    def __init__(self, batch_size: int = 32, window_size: int = 5, features: int = 1, verbose: bool = True) -> None:
+    def __init__(self, batch_size: int = 32, window_size: int = 5, features: int = 1, load: bool = False. verbose: bool = True) -> None:
         self.batch_size = batch_size
         self.window_size = window_size
         self.features = features
         self.normalizer = MinMaxScaler(feature_range = (0, features))
 
-        self.rnn = Sequential()
-        # add lstm layer
-        self.rnn.add(LSTM(32, input_shape = (window_size, features)))
-        # add dense later 
-        self.rnn.add(Dense(1))
-        self.rnn.add(Activation('sigmoid'))
-        # compile
-        self.rnn.compile(loss="mean_squared_error", optimizer="adam", metrics = ["mse"])
-        if verbose:
-            self.rnn.summary()
+        if not load:
+            self.rnn = Sequential()
+            # add lstm layer
+            self.rnn.add(LSTM(32, input_shape = (window_size, features)))
+            # add dense later 
+            self.rnn.add(Dense(1))
+            self.rnn.add(Activation('sigmoid'))
+            # compile
+            self.rnn.compile(loss="mean_squared_error", optimizer="adam", metrics = ["mse"])
+            if verbose:
+                self.rnn.summary()
+
+    def load_lstm_model(self, model_name: str) -> None:
+         """load a saved lstm model"""
+        self.rnn = load_model(model_name)
 
     def fit(self, x, y, epochs: int, batch_size: int, verbose: int):
         """train the model"""
