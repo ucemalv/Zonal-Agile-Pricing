@@ -43,11 +43,7 @@ for i in tqdm(range(tests)):
   predict_X = np.reshape(predict_X, (1, predict_X.shape[1], 1))
 
   # do the predictions loop
-  predictions = []
-  for i in range(iterations):
-    pred = model.predict(predict_X, verbose=0)
-    predict_X[0] = np.append(predict_X[0], pred).reshape(predict_X.shape[1] + 1, 1)[1:]
-    predictions.append(normalizer.inverse_transform(pred)[0][0])
+  predictions = model.predict(iterations, predict_X)
 
   # calc MSE
   score = math.sqrt(mean_squared_error(data[-random_number:-random_number+48], predictions))
