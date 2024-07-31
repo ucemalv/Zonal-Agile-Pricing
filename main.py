@@ -64,8 +64,8 @@ print("Number of samples test set: " + str((len(test))))
 window_size = 20
 
 # create the dataset 
-x_train, y_train = model.create_dataset(train, window_size=window_size)
-x_test, y_test = model.create_dataset(test, window_size=window_size)
+x_train, y_train = model.create_dataset(train)
+x_test, y_test = model.create_dataset(test)
 
 # reshape the data
 x_train = np.reshape(x_train, (x_train.shape[0], x_train.shape[1], 1))
