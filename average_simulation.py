@@ -20,7 +20,8 @@ zone_name = agile_price.keys()[zone_id]
 
 data = agile_price[zone_name]
 
-model = model.load_model("model_name_here")
+model = model.lstm_model(32, 20, 1, True)
+model = model.load_model("agile_predictor_North West England_1.h5")
 
 data_np = data.values.astype("float32")
 data_np = data_np.reshape(-1,1)
@@ -29,7 +30,7 @@ data_np = data_np.reshape(-1,1)
 dataset = model.normalizer.fit_transform(data_np)
 
 window_size = 20
-X, Y = model.create_dataset(data, window_size=window_size)
+X, Y = model.create_dataset(data)
 
 iterations = 48
 tests = 500
