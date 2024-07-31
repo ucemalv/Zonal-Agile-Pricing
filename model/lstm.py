@@ -4,7 +4,7 @@ from pandas import DataFrame
 import numpy as np
 
 from keras.layers import LSTM, Dense, Activation, Dropout 
-from keras.models import Sequential 
+from keras.models import Sequential, load_model
 
 from sklearn.metrics import mean_squared_error
 from sklearn.preprocessing import MinMaxScaler 
@@ -52,10 +52,10 @@ class lstm_model:
             predictions.append(self.normalizer.inverse_transform(pred)[0][0])
         return predictions
     
-    def create_dataset(self, dataset: DataFrame, window_size: int = 1):
+    def create_dataset(self, dataset: DataFrame):
         """create the dataset"""
         data_x, data_y = [], []
-        for i in range(len(dataset) - window_size - 1):
-            data_x.append(dataset[i:(i + window_size), 0])
-            data_y.append(dataset[i + window_size, 0])
+        for i in range(len(dataset) - self.window_size - 1):
+            data_x.append(dataset[i:(i + self.window_size), 0])
+            data_y.append(dataset[i + self.window_size, 0])
         return (np.array(data_x), np.array(data_y))
