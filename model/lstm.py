@@ -3,7 +3,7 @@ import math
 from pandas import DataFrame
 import numpy as np
 
-from keras.layers import LSTM, Dense, Activation, Dropout 
+from keras.layers import LSTM, Dense, Activation, Dropout, BatchNormalization
 from keras.models import Sequential, load_model
 
 from sklearn.metrics import mean_squared_error
@@ -23,7 +23,15 @@ class lstm_model:
             self.rnn = Sequential()
             # add lstm layer
             self.rnn.add(LSTM(32, input_shape = (window_size, features)))
-            # add dense later 
+            # add batch and dropout
+            self.rnn.add(BatchNormalization())
+            self.rnn.add(Dropout(0.2))
+            # add first dense layer
+            self.rrn.add(Dense(16))
+            self.rnn.add(Activation('relu'))
+            self.rnn.add(BatchNormalization()
+            self.rnn.add(Dropout(0.2))
+            # add second dense layer 
             self.rnn.add(Dense(1))
             self.rnn.add(Activation('sigmoid'))
             # compile
