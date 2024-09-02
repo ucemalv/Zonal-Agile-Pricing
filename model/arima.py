@@ -1,6 +1,8 @@
 from sklearn.metrics import mean_squared_error
 from statsmodels.tsa.arima.model import ARIMA
 from pandas import DataFrame
+import math
+from typing import List
 
 class arima:
 
@@ -24,5 +26,8 @@ class arima:
     """ make in-sample predictions between a start and end point """
     predictions = self.model_fit.predict(start=start, end=end)
     return predictions
-    
 
+  def get_error(self, pred: List[float], real: List[float]):
+    """ get the mean squared error for the predictions """
+    error = math.sqrt(mean_squared_error(real, pred))
+    return error
