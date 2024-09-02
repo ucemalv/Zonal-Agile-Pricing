@@ -1,6 +1,7 @@
 from pandas import DataFrame
 from sklearn.metrics import mean_squared_error
 from arch import arch_model
+from typing import List
 
 class garch:
 
@@ -20,3 +21,8 @@ class garch:
     """ made predictions outside of the sample """
     predictions = self.model_fit.forecast(horizon=horizon)
     return predictions.mean[-1:].values[0].to_list()
+
+  def get_error(self, real: List[float], pred: List[float]):
+    """ get the error between real and predicted values """
+    error = math.sqrt(mean_squared_error(real, pred))
+    return error
